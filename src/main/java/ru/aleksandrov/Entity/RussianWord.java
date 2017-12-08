@@ -6,14 +6,14 @@ import java.util.Set;
 public class RussianWord {
     private int russianId;
     private String russianWord;
-    private Set<Word> words = new HashSet<Word>(0);
+    private Set<Word> words = new HashSet<>(0);
 
     public RussianWord() {
     }
     
-    public RussianWord(int russian_id, String russian_word) {
-        this.russianId = russian_id;
-        this.russianWord = russian_word;
+    public RussianWord(int russianId, String russianWord) {
+        this.russianId = russianId;
+        this.russianWord = russianWord;
     }
 
     public int getRussianId() {
@@ -28,8 +28,8 @@ public class RussianWord {
         return russianWord;
     }
 
-    public void setRussianWord(String russian_word) {
-        this.russianWord = russian_word;
+    public void setRussianWord(String russianWord) {
+        this.russianWord = russianWord;
     }
 
     @Override

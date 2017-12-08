@@ -10,7 +10,7 @@ public class User {
     private String password;
     private String email;
     private Role role;
-    private Set<Word> words = new HashSet<Word>(0);
+    private Set<Word> words = new HashSet<>(0);
 
     public User() {
     }

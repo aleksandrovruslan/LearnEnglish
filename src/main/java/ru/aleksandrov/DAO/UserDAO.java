@@ -4,8 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.Entity.Role;
 import ru.aleksandrov.Entity.User;
-import ru.aleksandrov.util.DBConnection;
-import ru.aleksandrov.util.Settings;
+import ru.aleksandrov.Util.DBConnection;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;

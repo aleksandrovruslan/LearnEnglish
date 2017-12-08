@@ -3,7 +3,7 @@ package ru.aleksandrov.DAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.Entity.WordsCollection;
-import ru.aleksandrov.util.DBConnection;
+import ru.aleksandrov.Util.DBConnection;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;

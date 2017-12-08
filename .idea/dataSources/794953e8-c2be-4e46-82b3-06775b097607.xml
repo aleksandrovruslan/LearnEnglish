@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="webtesting@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.2">
+    <root id="1"/>
+    <database id="2" parent="1" name="webtesting">
+      <ObjectId>24622</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-12-07.14:59:38.642</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1058</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="4" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="5" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="6" parent="2" name="pg_temp_1">
+      <ObjectId>11215</ObjectId>
+    </schema>
+    <schema id="7" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11216</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="information_schema">
+      <ObjectId>11522</ObjectId>
+    </schema>
+    <sequence id="9" parent="3" name="english_words_english_id_seq">
+      <ObjectId>24681</ObjectId>
+      <StateNumber>820</StateNumber>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="10" parent="3" name="role_role_id_seq">
+      <ObjectId>24624</ObjectId>
+      <StateNumber>833</StateNumber>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="11" parent="3" name="russian_words_russian_id_seq">
+      <ObjectId>24691</ObjectId>
+      <StateNumber>820</StateNumber>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="12" parent="3" name="users_user_id_seq">
+      <ObjectId>24644</ObjectId>
+      <StateNumber>833</StateNumber>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="13" parent="3" name="words_collections_collection_id_seq">
+      <ObjectId>24716</ObjectId>
+      <StateNumber>982</StateNumber>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <table id="14" parent="3" name="english_words">
+      <ObjectId>24683</ObjectId>
+      <StateNumber>818</StateNumber>
+    </table>
+    <table id="15" parent="3" name="role">
+      <ObjectId>24626</ObjectId>
+      <StateNumber>833</StateNumber>
+    </table>
+    <table id="16" parent="3" name="russian_words">
+      <ObjectId>24693</ObjectId>
+      <StateNumber>1056</StateNumber>
+    </table>
+    <table id="17" parent="3" name="users">
+      <ObjectId>24646</ObjectId>
+      <StateNumber>833</StateNumber>
+    </table>
+    <table id="18" parent="3" name="words">
+      <ObjectId>24841</ObjectId>
+      <StateNumber>1056</StateNumber>
+    </table>
+    <table id="19" parent="3" name="words_collections">
+      <ObjectId>24718</ObjectId>
+      <StateNumber>982</StateNumber>
+    </table>
+    <column id="20" parent="14" name="english_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>784</StateNumber>
+      <SequenceName>english_words_english_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;english_words_english_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="21" parent="14" name="english_word">
+      <Position>2</Position>
+      <DataType>varchar(150)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>784</StateNumber>
+    </column>
+    <index id="22" parent="14" name="english_words_pkey">
+      <ObjectId>24687</ObjectId>
+      <ColNames>english_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="23" parent="14" name="english_words_english_word_key">
+      <ObjectId>24689</ObjectId>
+      <ColNames>english_word</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="24" parent="14" name="english_words_pkey">
+      <ObjectId>24688</ObjectId>
+      <ColNames>english_id</ColNames>
+      <UnderlyingIndexName>english_words_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="25" parent="14" name="english_words_english_word_key">
+      <ObjectId>24690</ObjectId>
+      <ColNames>english_word</ColNames>
+      <UnderlyingIndexName>english_words_english_word_key</UnderlyingIndexName>
+    </key>
+    <column id="26" parent="15" name="role_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>776</StateNumber>
+      <SequenceName>role_role_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;role_role_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="27" parent="15" name="name">
+      <Position>2</Position>
+      <DataType>varchar(150)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>835</StateNumber>
+    </column>
+    <index id="28" parent="15" name="role_pkey">
+      <ObjectId>24630</ObjectId>
+      <ColNames>role_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="29" parent="15" name="role_name_uindex">
+      <ObjectId>24893</ObjectId>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="30" parent="15" name="role_pkey">
+      <ObjectId>24631</ObjectId>
+      <ColNames>role_id</ColNames>
+      <UnderlyingIndexName>role_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="31" parent="16" name="russian_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>785</StateNumber>
+      <SequenceName>russian_words_russian_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;russian_words_russian_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="32" parent="16" name="russian_word">
+      <Position>2</Position>
+      <DataType>varchar(150)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>785</StateNumber>
+    </column>
+    <index id="33" parent="16" name="russian_words_pkey">
+      <ObjectId>24697</ObjectId>
+      <ColNames>russian_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="34" parent="16" name="russian_words_russian_word_key">
+      <ObjectId>24699</ObjectId>
+      <ColNames>russian_word</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="35" parent="16" name="russian_words_pkey">
+      <ObjectId>24698</ObjectId>
+      <ColNames>russian_id</ColNames>
+      <UnderlyingIndexName>russian_words_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="36" parent="16" name="russian_words_russian_word_key">
+      <ObjectId>24700</ObjectId>
+      <ColNames>russian_word</ColNames>
+      <UnderlyingIndexName>russian_words_russian_word_key</UnderlyingIndexName>
+    </key>
+    <column id="37" parent="17" name="user_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>778</StateNumber>
+      <SequenceName>users_user_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;users_user_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="38" parent="17" name="name">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>778</StateNumber>
+    </column>
+    <column id="39" parent="17" name="login">
+      <Position>3</Position>
+      <DataType>varchar(20)|0</DataType>
+      <StateNumber>778</StateNumber>
+    </column>
+    <column id="40" parent="17" name="password">
+      <Position>4</Position>
+      <DataType>varchar(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>814</StateNumber>
+    </column>
+    <column id="41" parent="17" name="email">
+      <Position>5</Position>
+      <DataType>varchar(64)|0</DataType>
+      <StateNumber>778</StateNumber>
+    </column>
+    <column id="42" parent="17" name="role_id">
+      <Position>7</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>804</StateNumber>
+    </column>
+    <index id="43" parent="17" name="users_pkey">
+      <ObjectId>24650</ObjectId>
+      <ColNames>user_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="44" parent="17" name="users_login_key">
+      <ObjectId>24652</ObjectId>
+      <ColNames>login</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="45" parent="17" name="users_email_key">
+      <ObjectId>24654</ObjectId>
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="17" name="users_pkey">
+      <ObjectId>24651</ObjectId>
+      <ColNames>user_id</ColNames>
+      <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="47" parent="17" name="users_login_key">
+      <ObjectId>24653</ObjectId>
+      <ColNames>login</ColNames>
+      <UnderlyingIndexName>users_login_key</UnderlyingIndexName>
+    </key>
+    <key id="48" parent="17" name="users_email_key">
+      <ObjectId>24655</ObjectId>
+      <ColNames>email</ColNames>
+      <UnderlyingIndexName>users_email_key</UnderlyingIndexName>
+    </key>
+    <foreign-key id="49" parent="17" name="chk_role">
+      <ObjectId>24766</ObjectId>
+      <ColNames>role_id</ColNames>
+      <RefTableName>role</RefTableName>
+      <RefKeyName>role_pkey</RefKeyName>
+      <RefColNames>role_id</RefColNames>
+    </foreign-key>
+    <column id="50" parent="18" name="user_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>811</StateNumber>
+    </column>
+    <column id="51" parent="18" name="english_id">
+      <Position>2</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>811</StateNumber>
+    </column>
+    <column id="52" parent="18" name="collection_id">
+      <Position>3</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>811</StateNumber>
+    </column>
+    <column id="53" parent="18" name="number_answers">
+      <Position>4</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>811</StateNumber>
+    </column>
+    <column id="54" parent="18" name="correct_answers">
+      <Position>5</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>811</StateNumber>
+    </column>
+    <column id="55" parent="18" name="russian_id">
+      <Position>6</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>1056</StateNumber>
+    </column>
+    <index id="56" parent="18" name="words_pkey">
+      <ObjectId>24908</ObjectId>
+      <ColNames>user_id
+english_id
+russian_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="57" parent="18" name="words_pkey">
+      <ObjectId>24909</ObjectId>
+      <ColNames>user_id
+english_id
+russian_id</ColNames>
+      <UnderlyingIndexName>words_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="58" parent="18" name="answers_user_id_fkey">
+      <ObjectId>24846</ObjectId>
+      <ColNames>user_id</ColNames>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_pkey</RefKeyName>
+      <RefColNames>user_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="59" parent="18" name="answers_english_id_fkey">
+      <ObjectId>24851</ObjectId>
+      <ColNames>english_id</ColNames>
+      <RefTableName>english_words</RefTableName>
+      <RefKeyName>english_words_pkey</RefKeyName>
+      <RefColNames>english_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="60" parent="18" name="answers_collection_id_fkey">
+      <ObjectId>24856</ObjectId>
+      <ColNames>collection_id</ColNames>
+      <RefTableName>words_collections</RefTableName>
+      <RefKeyName>words_collections_pkey</RefKeyName>
+      <RefColNames>collection_id</RefColNames>
+    </foreign-key>
+    <foreign-key id="61" parent="18" name="words_russian_id_fkey">
+      <ObjectId>24903</ObjectId>
+      <ColNames>russian_id</ColNames>
+      <RefTableName>russian_words</RefTableName>
+      <RefKeyName>russian_words_pkey</RefKeyName>
+      <RefColNames>russian_id</RefColNames>
+    </foreign-key>
+    <column id="62" parent="19" name="collection_id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>787</StateNumber>
+      <SequenceName>words_collections_collection_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;words_collections_collection_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="63" parent="19" name="name">
+      <Position>2</Position>
+      <DataType>varchar(150)|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>787</StateNumber>
+    </column>
+    <index id="64" parent="19" name="words_collections_pkey">
+      <ObjectId>24722</ObjectId>
+      <ColNames>collection_id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="65" parent="19" name="name_uniq">
+      <ObjectId>24901</ObjectId>
+      <ColNames>name</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="66" parent="19" name="words_collections_pkey">
+      <ObjectId>24723</ObjectId>
+      <ColNames>collection_id</ColNames>
+      <UnderlyingIndexName>words_collections_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <key id="67" parent="19" name="name_uniq">
+      <ObjectId>24902</ObjectId>
+      <ColNames>name</ColNames>
+      <UnderlyingIndexName>name_uniq</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>

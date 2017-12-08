@@ -3,7 +3,7 @@ package ru.aleksandrov.DAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.Entity.RussianWord;
-import ru.aleksandrov.util.DBConnection;
+import ru.aleksandrov.Util.DBConnection;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class RussianWordDAO {
         con = dbc.getConnection();
     }
 
-    public int isAddRussianWord(RussianWord russian){
+    public int addRussianWord(RussianWord russian){
         int id = 0;
         String SQL = "INSERT INTO russian_words (russian_word) VALUES (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL
@@ -35,11 +35,11 @@ public class RussianWordDAO {
             con.setAutoCommit(true);
             return id;
         }catch (SQLException e){
-            log.error("isAddRussianWord(): ", e);
+            log.error("addRussianWord(): ", e);
             try {
                 con.rollback();
             } catch (SQLException e1) {
-                log.error("isAddRussianWord(): con.rollback(): ", e1);
+                log.error("addRussianWord(): con.rollback(): ", e1);
             }
         }
         return id;

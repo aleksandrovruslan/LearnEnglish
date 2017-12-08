@@ -6,7 +6,7 @@ import java.util.Set;
 public class Role {
     private int roleId;
     private String name;
-    private Set<Word> words = new HashSet<Word>(0);
+    private Set<Word> words = new HashSet<>(0);
 
     public Role(){
     }

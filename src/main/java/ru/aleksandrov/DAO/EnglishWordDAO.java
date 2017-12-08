@@ -3,7 +3,7 @@ package ru.aleksandrov.DAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.Entity.EnglishWord;
-import ru.aleksandrov.util.DBConnection;
+import ru.aleksandrov.Util.DBConnection;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class EnglishWordDAO {
         con = dbc.getConnection();
     }
 
-    public int isAddEnglishWord(EnglishWord english){
+    public int addEnglishWord(EnglishWord english){
         int id = 0;
         String SQL = "INSERT INTO english_words (english_word) VALUES (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL
@@ -35,11 +35,11 @@ public class EnglishWordDAO {
             con.setAutoCommit(true);
             return id;
         }catch (SQLException e){
-            log.error("isAddEnglishWord(): ", e);
+            log.error("addEnglishWord(): ", e);
             try {
                 con.rollback();
             } catch (SQLException e1) {
-                log.error("isAddEnglishWord(): con.rollback(): ", e1);
+                log.error("addEnglishWord(): con.rollback(): ", e1);
             }
         }
         return id;
@@ -59,6 +59,22 @@ public class EnglishWordDAO {
             log.error("getEnglishWord(): ", e);
         }
         return english;
+    }
+
+    public int getEnglishId(String english){
+        int englishId = 0;
+        String sql = "SELECT * FROM english_words WHERE english_word = (?)";
+        try(PreparedStatement pstatement = con.prepareStatement(sql)){
+            pstatement.setString(1, english);
+            ResultSet result = pstatement.executeQuery();
+            if(result.next()){
+                englishId = result.getInt("english_id");
+            }
+            return englishId;
+        }catch (SQLException e){
+            log.error("getEnglishId(): ", e);
+        }
+        return englishId;
     }
 
     public boolean isUpdateEnglishWord(EnglishWord english){
