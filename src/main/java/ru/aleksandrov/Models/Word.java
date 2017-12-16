@@ -1,9 +1,12 @@
-package ru.aleksandrov.Entity;
+package ru.aleksandrov.Models;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Word {
     private User user;
     private EnglishWord english;
-    private RussianWord russian;
+    private List<RussianWord> russian = new ArrayList<>();
     private WordsCollection collection;
     private int numberAnswers;
     private int correctAnswers;
@@ -11,7 +14,7 @@ public class Word {
     public Word() {
     }
 
-    public Word(User user, EnglishWord english, RussianWord russian
+    public Word(User user, EnglishWord english, List<RussianWord> russian
             , WordsCollection collection, int numberAnswers, int correctAnswers) {
         this.user = user;
         this.english = english;
@@ -37,11 +40,11 @@ public class Word {
         this.english = english;
     }
 
-    public RussianWord getRussian() {
+    public List<RussianWord> getRussian() {
         return russian;
     }
 
-    public void setRussian(RussianWord russian) {
+    public void setRussian(List<RussianWord> russian) {
         this.russian = russian;
     }
 

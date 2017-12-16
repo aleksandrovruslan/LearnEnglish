@@ -3,8 +3,8 @@ package ru.aleksandrov.Controllers;
 import java.beans.PropertyVetoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.Entity.Role;
-import ru.aleksandrov.Entity.User;
+import ru.aleksandrov.Models.Role;
+import ru.aleksandrov.Models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

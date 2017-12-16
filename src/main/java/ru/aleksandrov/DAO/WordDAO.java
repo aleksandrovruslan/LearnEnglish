@@ -2,17 +2,15 @@ package ru.aleksandrov.DAO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.Entity.EnglishWord;
-import ru.aleksandrov.Entity.RussianWord;
-import ru.aleksandrov.Entity.User;
-import ru.aleksandrov.Entity.Word;
+import ru.aleksandrov.Models.EnglishWord;
+import ru.aleksandrov.Models.RussianWord;
+import ru.aleksandrov.Models.Word;
 import ru.aleksandrov.Util.DBConnection;
 
         import java.beans.PropertyVetoException;
         import java.io.IOException;
         import java.sql.*;
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.*;
 
 public class WordDAO {
     private static Logger log = LogManager.getLogger(RoleDAO.class);
@@ -28,14 +26,18 @@ public class WordDAO {
                 ", number_answers, correct_answers) VALUES (?, ?, ?, ?, ?, ?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
+            List<RussianWord> russianWords;
             for(Word word:words) {
-                pstatement.setInt(1, word.getUser().getUserId());
-                pstatement.setInt(2, word.getEnglish().getEnglishId());
-                pstatement.setInt(3, word.getRussian().getRussianId());
-                pstatement.setInt(4, word.getCollection().getCollectionId());
-                pstatement.setInt(5, word.getNumberAnswers());
-                pstatement.setInt(6, word.getCorrectAnswers());
-                pstatement.addBatch();
+                russianWords = word.getRussian();
+                for(RussianWord r:russianWords) {
+                    pstatement.setInt(1, word.getUser().getUserId());
+                    pstatement.setInt(2, word.getEnglish().getEnglishId());
+                    pstatement.setInt(3, r.getRussianId());
+                    pstatement.setInt(4, word.getCollection().getCollectionId());
+                    pstatement.setInt(5, word.getNumberAnswers());
+                    pstatement.setInt(6, word.getCorrectAnswers());
+                    pstatement.addBatch();
+                }
             }
             pstatement.executeBatch();
             con.commit();
@@ -47,8 +49,8 @@ public class WordDAO {
         return false;
     }
 
-    public List<Word> getWord(int userId, int englishId){
-        List<Word> words = null;
+    public Word getWord(int userId, int englishId){
+        Word word = new Word();
         String SQL = "SELECT users.user_id AS user_id, users.name AS user_name" +
                 ", english_words.english_word AS english" +
                 ", russian_words.russian_id AS russian_id" +
@@ -63,24 +65,29 @@ public class WordDAO {
                 " ON words.russian_id = russian_words.russian_id" +
                 " WHERE words.user_id = (?) AND  words.english_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
-            words = new ArrayList<>();
+            List<RussianWord> russianWords = new ArrayList<>();
             pstatement.setInt(1, userId);
             pstatement.setInt(2, englishId);
             ResultSet result= pstatement.executeQuery();
-            while (result.next()){
-                Word word = new Word();
+            if(result.next()){
                 word.setEnglish(new EnglishWord(englishId, result.getString("english")));
-                word.setRussian(new RussianWord(result.getInt("russian_id")
+                russianWords.add(new RussianWord(result.getInt("russian_id")
                         , result.getString("russian")));
                 word.setNumberAnswers(result.getInt("number_answers"));
                 word.setCorrectAnswers(result.getInt("correct_answers"));
-                words.add(word);
             }
-            return words;
+            while (result.next()){
+                russianWords.add(new RussianWord(result.getInt("russian_id")
+                        , result.getString("russian")));
+            }
+            log.info(russianWords);
+            word.setRussian(russianWords);
+            log.info(word.getRussian());
+            return word;
         }catch (SQLException e){
             log.error("getWord(): ", e);
         }
-        return words;
+        return null;
     }
     
     public boolean isUpdateWordsAnswers(Word ... words){
@@ -89,13 +96,17 @@ public class WordDAO {
                 "AND words.english_id = (?) AND words.russian_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
+            List<RussianWord> russianWords;
             for(Word word:words){
-                pstatement.setInt(1, word.getNumberAnswers());
-                pstatement.setInt(2, word.getCorrectAnswers());
-                pstatement.setInt(3, word.getUser().getUserId());
-                pstatement.setInt(4, word.getEnglish().getEnglishId());
-                pstatement.setInt(5, word.getRussian().getRussianId());
-                pstatement.addBatch();
+                russianWords = word.getRussian();
+                for(RussianWord r:russianWords) {
+                    pstatement.setInt(1, word.getNumberAnswers());
+                    pstatement.setInt(2, word.getCorrectAnswers());
+                    pstatement.setInt(3, word.getUser().getUserId());
+                    pstatement.setInt(4, word.getEnglish().getEnglishId());
+                    pstatement.setInt(5, r.getRussianId());
+                    pstatement.addBatch();
+                }
             }
             pstatement.executeBatch();
             con.commit();
@@ -108,14 +119,19 @@ public class WordDAO {
     }
     
     public boolean isDeleteWord(Word ... words){
-        String SQL = "DELETE FROM words WHERE user_id = (?) AND english_id = (?) AND russian_id = (?)";
+        String SQL = "DELETE FROM words WHERE user_id = (?) " +
+                "AND english_id = (?) AND russian_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
+            List<RussianWord> russianWords;
             for(Word word:words) {
-                pstatement.setInt(1, word.getUser().getUserId());
-                pstatement.setInt(2, word.getEnglish().getEnglishId());
-                pstatement.setInt(3, word.getRussian().getRussianId());
-                pstatement.addBatch();
+                russianWords = word.getRussian();
+                for (RussianWord r:russianWords) {
+                    pstatement.setInt(1, word.getUser().getUserId());
+                    pstatement.setInt(2, word.getEnglish().getEnglishId());
+                    pstatement.setInt(3, r.getRussianId());
+                    pstatement.addBatch();
+                }
             }
             pstatement.executeBatch();
             con.commit();
@@ -127,19 +143,39 @@ public class WordDAO {
         return false;
     }
     
-    public List<Word> getWords(Word word){
-        List<Word> words = new ArrayList<>(0);
-        String SQL = "";
+    public List<Word> getWords(int userId){
+        Map<Integer, Word> words = new HashMap<>();
+        String SQL = "SELECT words.english_id AS english_id, " +
+                "words.russian_id AS russian_id, " +
+                "words.number_answers AS  number_answers, " +
+                "words.correct_answers AS correct_answers, " +
+                "english_words.english_word AS english_word, " +
+                "russian_words.russian_word AS russian_word " +
+                "FROM words INNER JOIN english_words " +
+                "ON words.english_id = english_words.english_id " +
+                "INNER JOIN russian_words " +
+                "ON words.russian_id = russian_words.russian_id " +
+                "WHERE words.user_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
-            con.setAutoCommit(false);
-            con.commit();
-            con.setAutoCommit(true);
-            return words;
+            pstatement.setInt(1, userId);
+            ResultSet result = pstatement.executeQuery();
+            while (result.next()){
+                Integer englishId = result.getInt("english_id");
+                Word word = words.get(englishId);
+                if(word == null){
+                    word = new Word();
+                    word.setEnglish(new EnglishWord(englishId, result.getString("english_word")));
+                    words.put(word.getEnglish().getEnglishId(), word);
+                }
+                word.getRussian().add(new RussianWord(result.getInt("russian_id")
+                        , result.getString("russian_word")));
+                word.setNumberAnswers(result.getInt("number_answers"));
+                word.setCorrectAnswers(result.getInt("correct_answers"));
+            }
+            return new ArrayList<>(words.values());
         }catch(SQLException e){
             log.error("getWords(): ", e);
         }
-        return words;
+        return null;
     }
-
-    String str = "SELECT users.user_id AS user_id, users.name AS user_name, english_words.english_word AS english, russian_words.russian_id AS russian_id, russian_words.russian_word AS russian, words.collection_id, words.number_answers, words.correct_answers FROM words INNER JOIN users ON words.user_id = users.user_id INNER JOIN english_words ON words.english_id = english_words.english_id INNER JOIN russian_words ON words.russian_id = russian_words.russian_id WHERE words.user_id = 1 AND  words.english_id = 12";
 }

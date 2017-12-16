@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.DAO.UserDAO;
-import ru.aleksandrov.Entity.User;
+import ru.aleksandrov.Models.User;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {

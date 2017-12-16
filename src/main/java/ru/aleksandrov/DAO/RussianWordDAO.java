@@ -2,7 +2,7 @@ package ru.aleksandrov.DAO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.Entity.RussianWord;
+import ru.aleksandrov.Models.RussianWord;
 import ru.aleksandrov.Util.DBConnection;
 
 import java.beans.PropertyVetoException;

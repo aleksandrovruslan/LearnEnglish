@@ -2,8 +2,8 @@ package ru.aleksandrov.Controllers;
 
 import ru.aleksandrov.DAO.EnglishWordDAO;
 import ru.aleksandrov.DAO.WordDAO;
-import ru.aleksandrov.Entity.User;
-import ru.aleksandrov.Entity.Word;
+import ru.aleksandrov.Models.User;
+import ru.aleksandrov.Models.Word;
 import ru.aleksandrov.Util.Validation;
 
 import javax.servlet.ServletException;
@@ -30,8 +30,8 @@ public class WordInfoServlet extends HttpServlet {
                 EnglishWordDAO englishDAO = new EnglishWordDAO();
                 int englishId = englishDAO.getEnglishId(valid.getWord());
                 WordDAO wordDAO = new WordDAO();
-                List<Word> words = wordDAO.getWord(user.getUserId(),englishId);
-                request.setAttribute("words", words);
+                Word word = wordDAO.getWord(user.getUserId(),englishId);
+                request.setAttribute("word", word);
             } catch (PropertyVetoException e) {
                 e.printStackTrace();
             } catch (SQLException e) {

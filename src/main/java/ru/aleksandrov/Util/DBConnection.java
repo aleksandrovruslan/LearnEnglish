@@ -17,7 +17,7 @@ public class DBConnection {
     private DBConnection() throws IOException, SQLException, PropertyVetoException {
         Settings settings = Settings.getSettings();
         cpds = new ComboPooledDataSource();
-        cpds.setDriverClass("org.postgresql.Driver");
+        cpds.setDriverClass(settings.value("driver"));
         cpds.setJdbcUrl(settings.value("urlDB"));
         cpds.setUser(settings.value("login"));
         cpds.setPassword(settings.value("password"));

@@ -12,7 +12,7 @@
         </td>
         <td>
             <c:if test="${user != null}">
-                <c:if test="${words == null}">
+                <c:if test="${word == null}">
                     <form action="/wordInfo" method="post">
                         <table>
                             <tr>
@@ -32,17 +32,17 @@
                         </table>
                     </form>
                 </c:if>
-                <c:if test="${words != null}">
-                    <table border="2">
+                <c:if test="${word != null}">
+                    <table>
                         <tr>
                             <td>
-                                <c:out value="${words[0].english.englishWord}"/>
+                                <c:out value="${word.english.englishWord}"/>
                             </td>
-                            <c:forEach var="word" items="${words}">
-                                <td>
-                                    <c:out value="${word.russian.russianWord}"/>
-                                </td>
-                            </c:forEach>
+                            <td>
+                                <c:forEach var="rus" items="${word.russian}">
+                                    <c:out value="${rus.russianWord}"/>
+                                </c:forEach>
+                            </td>
                         </tr>
                     </table>
                 </c:if>

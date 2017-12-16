@@ -1,4 +1,4 @@
-package ru.aleksandrov.Entity;
+package ru.aleksandrov.Models;
 
 import java.util.HashSet;
 import java.util.Set;

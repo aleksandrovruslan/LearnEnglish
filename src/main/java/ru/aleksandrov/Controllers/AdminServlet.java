@@ -4,7 +4,7 @@ import java.beans.PropertyVetoException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.Entity.User;
+import ru.aleksandrov.Models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,13 +24,24 @@ public class AdminServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int userId = user.getUserId();
+        int userId;
+        int userDel = 0;
+        try{
+            userId = user.getUserId();
+        }catch (NullPointerException e){
+            userId = 0;
+        }
+        try {
+            userDel = Integer.parseInt(request.getParameter("userDel"));
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
         String action = request.getParameter("action");
         try {
             UserDAO userDAO = new UserDAO();
-            if ("delete".equals(action) && userId > 0) {
-                boolean del = userDAO.isDeleteUser(userId);
-                log.info(userId + " - " + del);
+            if ("delete".equals(action) && userId > 0 && userDel > 0) {
+                boolean del = userDAO.isDeleteUser(userDel);
+                log.info(userDel + " - " + del);
             }
             List<User> users = userDAO.getUsers();
             request.setAttribute("users", users);

@@ -31,7 +31,7 @@
                         <td><c:out value="${user.password}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td><c:out value="${user.role.name}"/></td>
-                        <td><a href="admin?action=delete&userId=<c:out value="${user.userId}"/>">delete user</a></td>
+                        <td><a href="admin?action=delete&userDel=<c:out value="${user.userId}"/>">delete user</a></td>
                     </tr>
                     </c:forEach>
                 </table>
