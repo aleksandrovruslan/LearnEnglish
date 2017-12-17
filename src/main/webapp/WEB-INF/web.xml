@@ -4,6 +4,15 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>RunnerServlet</servlet-name>
+    <servlet-class>ru.aleksandrov.Util.RunnerServlet</servlet-class>
+    <load-on-startup>0</load-on-startup>
+  </servlet>
+    <servlet-mapping>
+        <servlet-name>RunnerServlet</servlet-name>
+        <url-pattern>/RunnerServlet</url-pattern>
+    </servlet-mapping>
   <!--<servlet>-->
     <!--<servlet-name>/</servlet-name>-->
     <!--<servlet-clru.aleksandrov.controllerserslets.HomePageServlet</servlet-class>-->

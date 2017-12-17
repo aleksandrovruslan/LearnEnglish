@@ -14,7 +14,7 @@
         <mchange-commons-java.version>0.2.14</mchange-commons-java.version>
         <junit.version>4.12</junit.version>
         <log4j.version>2.8.2</log4j.version>
-        <h2.version>1.4.190</h2.version>
+        <h2.version>1.4.196</h2.version>
     </properties>
   <dependencies>
       <dependency>

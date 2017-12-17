@@ -17,10 +17,10 @@ public class DBConnection {
     private DBConnection() throws IOException, SQLException, PropertyVetoException {
         Settings settings = Settings.getSettings();
         cpds = new ComboPooledDataSource();
-        cpds.setDriverClass(settings.value("driver"));
-        cpds.setJdbcUrl(settings.value("urlDB"));
-        cpds.setUser(settings.value("login"));
-        cpds.setPassword(settings.value("password"));
+        cpds.setDriverClass("org.h2.Driver");
+        cpds.setJdbcUrl("jdbc:h2:mem:test");
+        cpds.setUser("sa");
+        cpds.setPassword("sa");
 
         cpds.setInitialPoolSize(5);
         cpds.setMinPoolSize(5);
