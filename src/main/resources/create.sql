@@ -44,6 +44,10 @@ create unique index role_name_uindex
   on role (name)
 ;
 
+INSERT INTO role (name) VALUES ('Administrator');
+INSERT INTO role (name) VALUES ('Moderator');
+INSERT INTO role (name) VALUES ('User');
+
 create table users
 (
   user_id serial not null

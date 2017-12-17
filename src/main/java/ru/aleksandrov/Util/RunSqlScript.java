@@ -8,23 +8,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class RunSqlScript {
-    //TODO fix script loading
-    public boolean scriptRunning(){
+    public boolean scriptRunning(String path){
         Connection con = null;
-        try {
+        try (FileReader reader = new FileReader(path)) {
             DBConnection dbConnection = DBConnection.getInstance();
             con = dbConnection.getConnection();
+            ScriptRunner runner = new ScriptRunner(con, false, false);
+            runner.runScript(new BufferedReader(reader));
         } catch (PropertyVetoException e) {
             e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ScriptRunner runner = new ScriptRunner(con, false, false);
-        String file = "/create.sql";
-        try (FileReader reader = new FileReader(file)) {
-            runner.runScript(new BufferedReader(reader));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (SQLException e) {

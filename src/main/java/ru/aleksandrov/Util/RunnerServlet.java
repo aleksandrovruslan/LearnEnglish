@@ -20,6 +20,8 @@ public class RunnerServlet extends HttpServlet {
 
     public void init(){
         RunSqlScript run = new RunSqlScript();
-        run.scriptRunning();
+        ServletContext sc = getServletContext();
+        String fullPath = sc.getRealPath("/WEB-INF/classes/create.sql");
+        run.scriptRunning(fullPath);
     }
 }
