@@ -44,10 +44,6 @@ create unique index role_name_uindex
   on role (name)
 ;
 
-INSERT INTO role (name) VALUES ('Administrator');
-INSERT INTO role (name) VALUES ('Moderator');
-INSERT INTO role (name) VALUES ('User');
-
 create table users
 (
   user_id serial not null
@@ -87,3 +83,11 @@ create table words
   primary key (user_id, english_id, russian_id)
 )
 ;
+
+INSERT INTO role (name) VALUES ('Administrator');
+INSERT INTO role (name) VALUES ('Moderator');
+INSERT INTO role (name) VALUES ('User');
+
+INSERT INTO words_collections (name) VALUES ('public');
+INSERT INTO words_collections (name) VALUES ('friendly');
+INSERT INTO words_collections (name) VALUES ('private');

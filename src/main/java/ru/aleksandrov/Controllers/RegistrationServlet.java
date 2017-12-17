@@ -3,6 +3,7 @@ package ru.aleksandrov.Controllers;
 import java.beans.PropertyVetoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.aleksandrov.DAO.RoleDAO;
 import ru.aleksandrov.Models.Role;
 import ru.aleksandrov.Models.User;
 
@@ -19,10 +20,11 @@ import ru.aleksandrov.DAO.UserDAO;
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(RegistrationServlet.class);
+    private static final int DEFAULT_ROLE_ID = 3;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO remake until 03.11
-        Role defaultRole = new Role(3, "User");
+        Role defaultRole = new Role(DEFAULT_ROLE_ID, "User");
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");

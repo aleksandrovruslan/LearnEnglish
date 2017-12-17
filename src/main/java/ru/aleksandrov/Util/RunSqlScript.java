@@ -1,5 +1,8 @@
 package ru.aleksandrov.Util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,6 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class RunSqlScript {
+    private static final Logger log = LogManager.getLogger(RunSqlScript.class);
     public boolean scriptRunning(String path){
         Connection con = null;
         try (FileReader reader = new FileReader(path)) {
@@ -16,11 +20,11 @@ public class RunSqlScript {
             ScriptRunner runner = new ScriptRunner(con, false, false);
             runner.runScript(new BufferedReader(reader));
         } catch (PropertyVetoException e) {
-            e.printStackTrace();
+            log.error("scriptRunning(): ", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("scriptRunning: ", e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("scriptRunning(): ", e);
         }
         return true;
     }
