@@ -1,5 +1,7 @@
 package ru.aleksandrov.Controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.DAO.EnglishWordDAO;
 import ru.aleksandrov.DAO.WordDAO;
 import ru.aleksandrov.Models.User;
@@ -19,26 +21,30 @@ import java.util.List;
 
 @WebServlet(name = "WordInfoServlet", urlPatterns = "/wordInfo")
 public class WordInfoServlet extends HttpServlet {
+    private static final Logger log = LogManager.getLogger(WordInfoServlet.class);
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         Validation valid = new Validation();
-        String  english = request.getParameter("english");
-        if(user != null && user.getUserId() > 0 && valid.isVerifyWord(english)) {
-            try {
+        String english = request.getParameter("english");
+        try {
+            if (user != null && user.getUserId() > 0 && valid.isVerifyWord(english)) {
                 EnglishWordDAO englishDAO = new EnglishWordDAO();
                 int englishId = englishDAO.getEnglishId(valid.getWord());
                 WordDAO wordDAO = new WordDAO();
-                Word word = wordDAO.getWord(user.getUserId(),englishId);
+                Word word = wordDAO.getWord(user.getUserId(), englishId);
                 request.setAttribute("word", word);
-            } catch (PropertyVetoException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                request.setAttribute("message", "Word mot found!");
-                e.printStackTrace();
             }
+        } catch (NullPointerException e){
+            log.error("doPost: ", e);
+        } catch (PropertyVetoException e) {
+            log.error("doPost: ", e);
+        } catch (SQLException e) {
+            log.error("doPost: ", e);
         }
+        request.setAttribute("message", "Word not found!");
         request.getRequestDispatcher("/views/wordInfo.jsp").forward(request, response);
     }
 

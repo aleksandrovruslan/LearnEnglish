@@ -1,9 +1,9 @@
 package ru.aleksandrov.Controllers;
 
 import java.beans.PropertyVetoException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.DAO.RoleDAO;
 import ru.aleksandrov.Models.Role;
 import ru.aleksandrov.Models.User;
 
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 import ru.aleksandrov.DAO.UserDAO;
+import ru.aleksandrov.Util.Validation;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -23,16 +24,17 @@ public class RegistrationServlet extends HttpServlet {
     private static final int DEFAULT_ROLE_ID = 3;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //TODO remake until 03.11
         Role defaultRole = new Role(DEFAULT_ROLE_ID, "User");
         String name = request.getParameter("name");
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
-        if (!name.isEmpty() && !login.isEmpty()
-                && !password.isEmpty() && !email.isEmpty()) {
+        Validation valid = new Validation();
+        if (valid.isVerifyName(name) && valid.isVerifyLogin(login)
+                && valid.isVerifyPassword(password) && valid.isVerifyEmail(email)) {
             try {
-                User user = new User(0, name, login, password, email, defaultRole);
+                User user = new User(0, valid.getName(), valid.getLogin(),
+                        valid.getPassword(), valid.getEmail(), defaultRole);
                 UserDAO userDAO = new UserDAO();
                 if(userDAO.isAddUser(user)){
                     request.setAttribute("message", "Registration successful!");
@@ -43,9 +45,10 @@ public class RegistrationServlet extends HttpServlet {
             } catch (SQLException e) {
                 log.error("doPost: ", e);
             }
+        } else {
+            request.getSession().setAttribute("message", "Registration failed.");
+            request.getRequestDispatcher("/views/registration.jsp").forward(request, response);
         }
-        request.getSession().setAttribute("message", "Registration failed.");
-        request.getRequestDispatcher("/views/registration.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

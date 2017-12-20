@@ -9,7 +9,7 @@
         <tr>
             <td>
                 <%@include file="/views/menu.jsp"%><br>
-                <%--TODO add the function of adding and editing roles--%>
+                <%--TODO add the function of adding and editing roles, editing users and access filter--%>
                 <a href="/admin">Add role</a><br>
             </td>
             <td>
@@ -31,7 +31,7 @@
                         <td><c:out value="${user.password}"/></td>
                         <td><c:out value="${user.email}"/></td>
                         <td><c:out value="${user.role.name}"/></td>
-                        <td><a href="admin?action=delete&userDel=<c:out value="${user.userId}"/>">delete user</a></td>
+                        <td><a href="/admin?action=deleteUser&variableUserId=<c:out value="${user.userId}"/>">delete user</a></td>
                     </tr>
                     </c:forEach>
                 </table>

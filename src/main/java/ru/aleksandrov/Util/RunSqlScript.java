@@ -22,7 +22,7 @@ public class RunSqlScript {
         } catch (PropertyVetoException e) {
             log.error("scriptRunning(): ", e);
         } catch (IOException e) {
-            log.error("scriptRunning: ", e);
+            log.error("scriptRunning(): ", e);
         } catch (SQLException e) {
             log.error("scriptRunning(): ", e);
         }

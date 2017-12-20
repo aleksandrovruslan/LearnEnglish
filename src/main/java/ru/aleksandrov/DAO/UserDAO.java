@@ -23,8 +23,7 @@ public class UserDAO {
 
     public boolean isAddUser(User user){
         String SQL = "INSERT INTO users (name, login, password, email, role_id) VALUES (?, ?, ?, ?, ?)";
-        try(PreparedStatement pstatement = con.prepareStatement((SQL)
-                , Statement.RETURN_GENERATED_KEYS)){
+        try(PreparedStatement pstatement = con.prepareStatement((SQL))){
             con.setAutoCommit(false);
             pstatement.setString(1, user.getName());
             pstatement.setString(2, user.getLogin());
@@ -73,7 +72,7 @@ public class UserDAO {
     }
 
     public boolean isUpdateUser(User user){
-        String SQL = "UPDATE FROM users SET name = (?), login = (?)" +
+        String SQL = "UPDATE users SET name = (?), login = (?)" +
                 ", password = (?), email = (?), role_id = (?) WHERE user_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
@@ -140,7 +139,8 @@ public class UserDAO {
         return users;
     }
     
-    public User verifyUser(User user){String login = user.getLogin();
+    public User verifyUser(User user){
+        String login = user.getLogin();
         String password = user.getPassword();
         String SQL = "SELECT users.user_id AS user_id, users.name AS name" +
                 ", users.login AS login, users.password AS password" +

@@ -37,6 +37,7 @@
                         <div id="items">
                             <tr>
                                 <td>
+                                    <%--TODO fix the finction addField--%>
                                     <input value="+" type="button" onclick="addField();" id="add"/>
                                     Enter russian word:
                                 </td>

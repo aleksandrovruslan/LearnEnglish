@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "RunnerServlet")
+@WebServlet(name = "RunnerServlet", urlPatterns = "/RunnerServlet", loadOnStartup = 0)
 public class RunnerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -21,7 +21,8 @@ public class RunnerServlet extends HttpServlet {
     public void init(){
         RunSqlScript run = new RunSqlScript();
         ServletContext sc = getServletContext();
-        String fullPath = sc.getRealPath("/WEB-INF/classes/create.sql");
+        Settings settings = Settings.getSettings();
+        String fullPath = sc.getRealPath("/WEB-INF/classes/" + settings.value("createFile"));
         run.scriptRunning(fullPath);
     }
 }

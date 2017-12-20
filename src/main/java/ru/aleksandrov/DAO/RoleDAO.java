@@ -64,7 +64,7 @@ public class RoleDAO {
     }
 
     public boolean isUpdateRole(Role role){
-        String SQL = "UPDATE FROM role SET name = (?) WHERE role_id = (?)";
+        String SQL = "UPDATE role SET name = (?) WHERE role_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
             pstatement.setString(1, role.getName());

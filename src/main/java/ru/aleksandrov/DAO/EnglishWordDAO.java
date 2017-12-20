@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class EnglishWordDAO {
 
-    private static Logger log = LogManager.getLogger(RoleDAO.class);
+    private static Logger log = LogManager.getLogger(EnglishWordDAO.class);
     private Connection con = null;
 
     public EnglishWordDAO() throws PropertyVetoException, IOException, SQLException {
@@ -29,7 +29,7 @@ public class EnglishWordDAO {
             pstatement.executeUpdate();
             ResultSet generatedKeys = pstatement.getGeneratedKeys();
             if (generatedKeys.next()){
-                id = generatedKeys.getInt("english_id");
+                id = generatedKeys.getInt(1);
             }
             con.commit();
             con.setAutoCommit(true);
@@ -78,7 +78,7 @@ public class EnglishWordDAO {
     }
 
     public boolean isUpdateEnglishWord(EnglishWord english){
-        String SQL = "UPDATE FROM english_words SET english_word = (?) WHERE english_id = (?)";
+        String SQL = "UPDATE english_words SET english_word = (?) WHERE english_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
             pstatement.setString(1, english.getEnglishWord());

@@ -17,39 +17,43 @@ import java.sql.SQLException;
 import java.util.List;
 import ru.aleksandrov.DAO.UserDAO;
 
-//TODO remake until 03.11
+//TODO add the function of adding and editing roles, editing users and access filter
 @WebServlet(name = "AdminServlet", urlPatterns = "/admin")
 public class AdminServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(AdminServlet.class);
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int userId;
-        int userDel = 0;
-        try{
-            userId = user.getUserId();
-        }catch (NullPointerException e){
-            userId = 0;
-        }
-        try {
-            userDel = Integer.parseInt(request.getParameter("userDel"));
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-        }
+        int roleId = user.getRole().getRoleId();
         String action = request.getParameter("action");
-        try {
-            UserDAO userDAO = new UserDAO();
-            if ("delete".equals(action) && userId > 0 && userDel > 0) {
-                boolean del = userDAO.isDeleteUser(userDel);
-                log.info(userDel + " - " + del);
+        if(roleId == 1) {
+            try {
+                UserDAO userDAO = new UserDAO();
+                if ("deleteUser".equals(action)) {
+                    int variableUserId = Integer.parseInt(request
+                            .getParameter("variableUserId"));
+                    userDAO.isDeleteUser(variableUserId);
+                } else if ("editUser".equals(action)) {
+
+                } else if ("deleteRole".equals(action)) {
+
+                } else if ("editRole".equals(action)) {
+
+                }
+                List<User> users = userDAO.getUsers();
+                request.setAttribute("users", users);
+            } catch (NumberFormatException e) {
+                log.error("doGet: ", e);
+            } catch (NullPointerException e) {
+                log.debug("doGet(): ", e);
+            } catch (PropertyVetoException e) {
+                log.error("doGet(): ", e);
+            } catch (SQLException e) {
+                log.error("doGet(): ", e);
             }
-            List<User> users = userDAO.getUsers();
-            request.setAttribute("users", users);
-        } catch (PropertyVetoException e) {
-            log.error("doGet(): ", e);
-        } catch (SQLException e) {
-            log.error("doGet(): ", e);
+            request.getRequestDispatcher("/views/admin.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("/views/home.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("/views/admin.jsp").forward(request, response);
     }
 }

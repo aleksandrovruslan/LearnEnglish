@@ -17,7 +17,7 @@ import ru.aleksandrov.Models.User;
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger(LoginServlet.class);
-    //TODO remake until 03.11
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
@@ -32,9 +32,6 @@ public class LoginServlet extends HttpServlet {
                     HttpSession session = request.getSession(true);
                     session.setAttribute("user", userVerified);
                     request.getRequestDispatcher("/views/home.jsp").forward(request, response);
-                } else {
-                    request.setAttribute("message", "Incorrect username or password.");
-                    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
                 }
             } catch (PropertyVetoException e) {
                 log.error("doPost(): ", e);
@@ -42,7 +39,8 @@ public class LoginServlet extends HttpServlet {
                 log.error("doPost(): ", e);
             }
         }
-        request.getRequestDispatcher("/views/home.jsp").forward(request,response);
+        request.setAttribute("message", "Incorrect username or password.");
+        request.getRequestDispatcher("/views/login.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

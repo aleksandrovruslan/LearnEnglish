@@ -1,5 +1,7 @@
 package ru.aleksandrov.Controllers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.aleksandrov.DAO.WordDAO;
 import ru.aleksandrov.Models.User;
 import ru.aleksandrov.Models.Word;
@@ -17,6 +19,8 @@ import java.util.List;
 
 @WebServlet(name = "myWordsServlet", urlPatterns = "/mywords")
 public class MyWordsServlet extends HttpServlet {
+    private static final Logger log = LogManager.getLogger(MyWordsServlet.class);
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/views/myWords.jsp").forward(request, response);
     }
@@ -24,24 +28,28 @@ public class MyWordsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int userId;
+        String wordAction = request.getParameter("action");
+        int userId = user.getUserId();
         try {
-            userId = user.getUserId();
-        } catch (NullPointerException e){
-            userId = 0;
-        }
-        if(userId > 0){
-            try {
+            if(userId > 0) {
                 WordDAO wordDAO = new WordDAO();
+                if("deleteWord".equals(wordAction)){
+                    int variableWordEnglishId = Integer.parseInt(request.getParameter("variableWordEnglishId"));
+                    wordDAO.isDeleteWord(userId, variableWordEnglishId);
+                    log.info(variableWordEnglishId);
+                }
                 List<Word> words = wordDAO.getWords(userId);
                 request.setAttribute("words", words);
-            } catch (PropertyVetoException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-            request.getRequestDispatcher("/views/myWords.jsp").forward(request, response);
+        } catch (NumberFormatException e){
+            log.error("doGet: ", e);
+        } catch (NullPointerException e){
+            log.error("doGet(): ", e);
+        } catch (PropertyVetoException e) {
+            log.error("doGet(): ", e);
+        } catch (SQLException e) {
+            log.error("doGet(): ", e);
         }
-        request.getRequestDispatcher("/views/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/myWords.jsp").forward(request, response);
     }
 }

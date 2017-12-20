@@ -6,10 +6,12 @@
     <a href="/login">Sign in</a>
 </c:if>
 <c:if test="${user != null}">
+    <c:if test="${user.role.roleId == 1}">
+        <a href="/admin">Admin panel</a><br>
+    </c:if>
     <a href="/addword">Add word</a><br>
     <a href="/wordInfo">Get word info</a><br>
     <a href="/mywords">All words</a><br>
-    <a href="/admin">Admin panel</a><br>
     <a href="/learn">Learn words</a><br>
     <a href="/logout">Logout</a><br>
     <c:out value="${user.name}"/>

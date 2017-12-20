@@ -64,7 +64,7 @@ public class WordsCollectionDAO {
     }
 
     public boolean isUpdateWordsCollection(WordsCollection collection){
-        String SQL = "UPDATE FROM words_collections SET name = (?) WHERE collection_id = (?)";
+        String SQL = "UPDATE words_collections SET name = (?) WHERE collection_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
             pstatement.setString(1, collection.getName());

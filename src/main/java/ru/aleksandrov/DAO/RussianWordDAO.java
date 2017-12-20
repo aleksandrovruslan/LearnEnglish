@@ -11,7 +11,7 @@ import java.sql.*;
 
 public class RussianWordDAO {
 
-    private static Logger log = LogManager.getLogger(RoleDAO.class);
+    private static Logger log = LogManager.getLogger(RussianWordDAO.class);
     private Connection con = null;
 
     public RussianWordDAO() throws PropertyVetoException, IOException, SQLException {
@@ -29,7 +29,7 @@ public class RussianWordDAO {
             pstatement.executeUpdate();
             ResultSet generatedKeys = pstatement.getGeneratedKeys();
             if (generatedKeys.next()){
-                id = generatedKeys.getInt("russian_id");
+                id = generatedKeys.getInt(1);
             }
             con.commit();
             con.setAutoCommit(true);
@@ -62,7 +62,7 @@ public class RussianWordDAO {
     }
 
     public boolean isUpdateRussianWord(RussianWord russian){
-        String SQL = "UPDATE FROM russian_words SET russian_word = (?) WHERE russian_id = (?)";
+        String SQL = "UPDATE russian_words SET russian_word = (?) WHERE russian_id = (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL)){
             con.setAutoCommit(false);
             pstatement.setString(1, russian.getRussianWord());
