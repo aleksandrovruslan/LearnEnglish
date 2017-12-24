@@ -19,7 +19,7 @@ public class EnglishWordDAO {
         con = dbc.getConnection();
     }
 
-    public int addEnglishWord(EnglishWord english){
+    public int addEnglishWord(EnglishWord english) throws SQLException {
         int id = 0;
         String SQL = "INSERT INTO english_words (english_word) VALUES (?)";
         try(PreparedStatement pstatement = con.prepareStatement(SQL
@@ -34,52 +34,59 @@ public class EnglishWordDAO {
             con.commit();
             con.setAutoCommit(true);
             return id;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("addEnglishWord(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("addEnglishWord(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("addEnglishWord(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
+        id = 3;
         return id;
     }
 
-    public EnglishWord getEnglishWord(int id){
+    public EnglishWord getEnglishWord(int id) {
         EnglishWord english = null;
         String SQL = "SELECT * FROM english_words WHERE english_id = (?)";
-        try(PreparedStatement pstatment = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatment = con.prepareStatement(SQL)) {
             pstatment.setInt(1, id);
             ResultSet result = pstatment.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 english = new EnglishWord(id, result.getString("english_word"));
                 return english;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("getEnglishWord(): ", e);
         }
         return english;
     }
 
-    public int getEnglishId(String english){
+    public int getEnglishId(String english) {
         int englishId = 0;
         String sql = "SELECT * FROM english_words WHERE english_word = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(sql)){
+        try (PreparedStatement pstatement = con.prepareStatement(sql)) {
             pstatement.setString(1, english);
             ResultSet result = pstatement.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 englishId = result.getInt("english_id");
             }
             return englishId;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("getEnglishId(): ", e);
         }
         return englishId;
     }
 
-    public boolean isUpdateEnglishWord(EnglishWord english){
+    public boolean isUpdateEnglishWord(EnglishWord english) throws SQLException {
         String SQL = "UPDATE english_words SET english_word = (?) WHERE english_id = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             con.setAutoCommit(false);
             pstatement.setString(1, english.getEnglishWord());
             pstatement.setInt(2, english.getEnglishId());
@@ -87,32 +94,44 @@ public class EnglishWordDAO {
             con.commit();
             con.setAutoCommit(true);
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("isUpdateEnglishWord(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("isUpdateEnglishWord(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("isUpdateEnglishWord(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
         return false;
     }
 
-    public boolean isDeleteEnglishWord(int id){
+    public boolean isDeleteEnglishWord(int id) throws SQLException {
         String SQL = "DELETE FROM english_words WHERE english_id = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             con.setAutoCommit(false);
             pstatement.setInt(1, id);
             pstatement.executeUpdate();
             con.commit();
             con.setAutoCommit(true);
             return true;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("isDeleteEnglishWord(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("isDeleteEnglishWord(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("isDeleteEnglishWord(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
         return false;

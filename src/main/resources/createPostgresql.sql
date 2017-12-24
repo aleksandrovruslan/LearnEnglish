@@ -1,4 +1,4 @@
-create table english_words
+create table IF NOT EXISTS english_words
 (
   english_id serial not null
     constraint english_words_pkey
@@ -9,7 +9,7 @@ create table english_words
 )
 ;
 
-create table russian_words
+create table IF NOT EXISTS russian_words
 (
   russian_id serial not null
     constraint russian_words_pkey
@@ -20,7 +20,7 @@ create table russian_words
 )
 ;
 
-create table words_collections
+create table IF NOT EXISTS words_collections
 (
   collection_id serial not null
     constraint words_collections_pkey
@@ -31,20 +31,18 @@ create table words_collections
 )
 ;
 
-create table role
+create table IF NOT EXISTS role
 (
   role_id serial not null
     constraint role_pkey
     primary key,
   name varchar(150) not null
+    CONSTRAINT role_name_key
+    UNIQUE
 )
 ;
 
-create unique index role_name_uindex
-  on role (name)
-;
-
-create table users
+create table IF NOT EXISTS users
 (
   user_id serial not null
     constraint users_pkey
@@ -63,7 +61,7 @@ create table users
 )
 ;
 
-create table words
+create table IF NOT EXISTS words
 (
   user_id integer not null
     constraint answers_user_id_fkey
@@ -84,10 +82,12 @@ create table words
 )
 ;
 
-INSERT INTO role (name) VALUES ('Administrator');
-INSERT INTO role (name) VALUES ('Moderator');
-INSERT INTO role (name) VALUES ('User');
-
-INSERT INTO words_collections (name) VALUES ('public');
-INSERT INTO words_collections (name) VALUES ('friendly');
-INSERT INTO words_collections (name) VALUES ('private');
+-- INSERT INTO role (name) VALUES ('Administrator');
+-- INSERT INTO role (name) VALUES ('Moderator');
+-- INSERT INTO role (name) VALUES ('User');
+--
+-- INSERT INTO words_collections (name) VALUES ('public');
+-- INSERT INTO words_collections (name) VALUES ('friendly');
+-- INSERT INTO words_collections (name) VALUES ('private');
+--
+-- INSERT INTO users(name, login, password, email, role_id) VALUES ('admin', 'admin', 'admin', 'admin@adminmail.ru', 1);

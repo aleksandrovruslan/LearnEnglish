@@ -7,16 +7,15 @@
 </head>
 <body>
 <script type="text/javascript">
-    var items=1;
     function addField() {
-        var div=document.getElementById("items");
-        var button=document.getElementById("add");
-        items++;
-        var newitem="<tr><td>Enter russian word: </td>";
-        newitem+="<td><input name=\"russian\" type=\"text\"></td></tr>";
-        var newnode=document.createElement("div");
-        newnode.innerHTML=newitem;
-        div.insertBefore(newnode,button);
+        var table=document.getElementById("words");
+        var tr = document.createElement("tr");
+        tr.innerHTML = "<td>Enter russian word: </td>" +
+            "<td><input name=\"russian\" type=\"text\"></td>";
+        var td = document.createElement("td");
+        tr.appendChild(td);
+        table.appendChild(tr);
+        return false;
     }
 </script>
 <table>
@@ -26,7 +25,7 @@
         </td>
         <td>
             <form action="/learn" method="post">
-                <table>
+                <table id="words">
                     <c:if test="${rand == 0}">
                         <tr>
                             <td>enter the translation of the word:</td>
@@ -34,18 +33,14 @@
                                 <c:out value="${randWord.english.englishWord}"/>
                             </td>
                         </tr>
-                        <div id="items">
-                            <tr>
-                                <td>
-                                    <%--TODO fix the finction addField--%>
-                                    <input value="+" type="button" onclick="addField();" id="add"/>
-                                    Enter russian word:
-                                </td>
-                                <td>
-                                    <input name="russian" type="text"><br>
-                                </td>
-                            </tr>
-                        </div>
+                        <tr>
+                            <td>
+                                Enter russian word:
+                            </td>
+                            <td>
+                                <input name="russian" type="text"><br>
+                            </td>
+                        </tr>
                     </c:if>
                     <c:if test="${rand == 1}">
                         <tr>
@@ -63,37 +58,11 @@
                             </td>
                         </tr>
                     </c:if>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <input value="check" type="submit">
-                        </td>
-                    </tr>
-                </table>
-
-
-                <%--<table>--%>
-                    <%--<tr>--%>
-                        <%--<td>--%>
-                            <%--English word--%>
-                        <%--</td>--%>
-                        <%--<td>--%>
-                            <%--Word translation--%>
-                        <%--</td>--%>
-                    <%--</tr>--%>
-                    <%--<c:forEach var="word" items="${words}">--%>
-                        <%--<tr>--%>
-                            <%--<td>--%>
-                                <%--<c:out value="${word.english.englishWord}"/>--%>
-                            <%--</td>--%>
-                            <%--<td>--%>
-                                <%--<c:forEach var="rus" items="${word.russian}">--%>
-                                    <%--<c:out value="${rus.russianWord}"/>--%>
-                                <%--</c:forEach>--%>
-                            <%--</td>--%>
-                        <%--</tr>--%>
-                    <%--</c:forEach>--%>
-                <%--</table>--%>
+                </table><br>
+                <c:if test="${rand == 0}">
+                    <input value="+" type="button" onclick="addField();" id="add"/>
+                </c:if><br>
+                <input value="check" type="submit">
             </form>
         </td>
     </tr>

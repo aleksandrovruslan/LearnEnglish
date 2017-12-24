@@ -23,7 +23,7 @@ public class DBConnection {
         cpds.setInitialPoolSize(5);
         cpds.setMinPoolSize(5);
         cpds.setAcquireIncrement(5);
-        cpds.setMaxPoolSize(20);
+        cpds.setMaxPoolSize(30);
         cpds.setMaxStatements(180);
     }
 

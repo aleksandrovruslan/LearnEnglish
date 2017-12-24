@@ -1,5 +1,7 @@
 package ru.aleksandrov.Util;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public class Validation {
@@ -8,7 +10,7 @@ public class Validation {
     private String email;
     private String password;
     private String word;
-    private String[] words;
+    private Set<String> words;
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -33,7 +35,7 @@ public class Validation {
         return word;
     }
 
-    public String[] getWords() {
+    public Set<String> getWords() {
         return words;
     }
 
@@ -95,15 +97,14 @@ public class Validation {
     }
 
     public boolean isVerifyWords(String[] words){
-        this.words = null;
+        this.words = new HashSet<>();
         if(words != null && (words.length > 0)){
             for(int i = 0; i < words.length; i ++){
                 if(!isVerifyWord(words[i])){
                     return false;
                 }
-                words[i] = word;
+                this.words.add(word);
             }
-            this.words = words;
             return true;
         }
         return false;

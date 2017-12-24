@@ -34,8 +34,7 @@ public class LearnServlet extends HttpServlet {
         if(rand == 0){
             String[] russian = request.getParameterValues("russian");
             if(valid.isVerifyWords(russian)){
-                Set<String> verifiedRus =
-                        new HashSet<String>(Arrays.asList(valid.getWords()));
+                Set<String> verifiedRus = valid.getWords();
                 if(verifiedRus.size() == word.getRussian().size()) {
                     correct = true;
                     for(RussianWord r:word.getRussian()) {

@@ -21,9 +21,9 @@ public class UserDAO {
         con = dbc.getConnection();
     }
 
-    public boolean isAddUser(User user){
+    public boolean isAddUser(User user) throws SQLException {
         String SQL = "INSERT INTO users (name, login, password, email, role_id) VALUES (?, ?, ?, ?, ?)";
-        try(PreparedStatement pstatement = con.prepareStatement((SQL))){
+        try (PreparedStatement pstatement = con.prepareStatement((SQL))) {
             con.setAutoCommit(false);
             pstatement.setString(1, user.getName());
             pstatement.setString(2, user.getLogin());
@@ -34,28 +34,34 @@ public class UserDAO {
             con.commit();
             con.setAutoCommit(true);
             return true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             log.error("isAddUser(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("isAddUser(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("isAddUser(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
         return false;
     }
 
-    public User getUser(int id){
+    public User getUser(int id) {
         User user = null;
         String SQL = "SELECT users.user_id AS user_id, users.name AS name" +
                 ", users.login AS login, users.password AS password" +
                 ", users.email AS email, role.role_id AS role_id" +
                 ", role.name AS role_name FROM users LEFT OUTER JOIN role ON" +
                 " users.role_id = role.role_id WHERE user_id = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             pstatement.setInt(1, id);
             ResultSet resultSet = pstatement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 user = new User(resultSet.getInt("user_id")
                         , resultSet.getString("name")
                         , resultSet.getString("login")
@@ -65,16 +71,16 @@ public class UserDAO {
                         , resultSet.getString("role_name")));
                 return user;
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("getRole(): ", e);
         }
         return user;
     }
 
-    public boolean isUpdateUser(User user){
+    public boolean isUpdateUser(User user) throws SQLException {
         String SQL = "UPDATE users SET name = (?), login = (?)" +
                 ", password = (?), email = (?), role_id = (?) WHERE user_id = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             con.setAutoCommit(false);
             pstatement.setString(1, user.getName());
             pstatement.setString(2, user.getLogin());
@@ -86,60 +92,72 @@ public class UserDAO {
             con.commit();
             con.setAutoCommit(true);
             return true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             log.error("isUpdateUser(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("isUpdateUser(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("isUpdateUser(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
         return false;
     }
 
-    public boolean isDeleteUser(int id){
+    public boolean isDeleteUser(int id) throws SQLException {
         String SQL = "DELETE FROM users WHERE user_id = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             con.setAutoCommit(false);
             pstatement.setInt(1, id);
             pstatement.executeUpdate();
             con.commit();
             con.setAutoCommit(true);
             return true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             log.error("isDeleteUser(): ", e);
-            try {
-                con.rollback();
-            } catch (SQLException e1) {
-                log.error("isDeleteUser(): con.rollback(): ", e1);
+            if (con != null) {
+                try {
+                    con.rollback();
+                } catch (SQLException e1) {
+                    log.error("isDeleteUser(): con.rollback(): ", e1);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
             }
         }
         return false;
     }
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         List<User> users = new ArrayList<>(0);
         String SQL = "SELECT users.user_id AS user_id, users.name AS name" +
                 ", users.login AS login, users.password AS password" +
                 ", users.email AS email, users.role_id AS role_id" +
                 ", role.name AS role_name FROM users LEFT OUTER JOIN role" +
                 " ON users.role_id = role.role_id";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             ResultSet result = pstatement.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 users.add(new User(result.getInt("user_id"), result.getString("name")
                         , result.getString("login"), result.getString("password")
                         , result.getString("email")
                         , new Role(result.getInt("role_id"), result.getString("role_name"))));
             }
         return users;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             log.error("getUsers(): ", e);
         }
         return users;
     }
     
-    public User verifyUser(User user){
+    public User verifyUser(User user) {
         String login = user.getLogin();
         String password = user.getPassword();
         String SQL = "SELECT users.user_id AS user_id, users.name AS name" +
@@ -147,20 +165,20 @@ public class UserDAO {
                 ", users.email AS email, role.role_id AS role_id" +
                 ", role.name AS role_name FROM users LEFT OUTER JOIN role ON" +
                 " users.role_id = role.role_id WHERE login = (?)";
-        try(PreparedStatement pstatement = con.prepareStatement(SQL)){
+        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
             pstatement.setString(1, login);
             ResultSet result = pstatement.executeQuery();
-            if(result.next()){
+            if (result.next()) {
                 User verifiedUser = new User(result.getInt("user_id")
                         , result.getString("name"), result.getString("login")
                         , result.getString("password"), result.getString("email")
                         , new Role(result.getInt("role_id"), result.getString("role_name")));
-                if(verifiedUser.getLogin().equals(login) && verifiedUser.getPassword().equals(password)){
+                if (verifiedUser.getLogin().equals(login) && verifiedUser.getPassword().equals(password)) {
                     return verifiedUser;
                 }
             }
             return user;
-        }catch(SQLException e){
+        } catch(SQLException e) {
             log.error("verifyUser(): ", e);
             e.printStackTrace();
         }

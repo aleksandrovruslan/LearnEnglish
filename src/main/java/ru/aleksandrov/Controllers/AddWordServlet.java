@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import ru.aleksandrov.DAO.EnglishWordDAO;
 import ru.aleksandrov.DAO.RussianWordDAO;
@@ -36,31 +37,26 @@ public class AddWordServlet extends HttpServlet {
             Validation valid = new Validation();
             if(valid.isVerifyWords(russian) && valid.isVerifyWord(english)){
                 try {
-                    english = valid.getWord();
-                    russian = valid.getWords();
                     EnglishWordDAO englishDAO = new EnglishWordDAO();
-                    RussianWordDAO russianDAO = new RussianWordDAO();
+                    english = valid.getWord();
                     EnglishWord englishWord = new EnglishWord();
                     englishWord.setEnglishWord(english);
                     int englishId = englishDAO.addEnglishWord(englishWord);
                     englishWord.setEnglishId(englishId);
+
+                    RussianWordDAO russianDAO = new RussianWordDAO();
+                    Set<String> russianStrings = valid.getWords();
+                    List<RussianWord> russianWords = russianDAO.addRussianWords(russianStrings);
+
                     WordDAO wordDAO = new WordDAO();
                     Word word = new Word();
                     word.setEnglish(englishWord);
+                    word.setRussian(russianWords);
                     word.setUser(user);
                     word.setCollection(new WordsCollection(1, "default"));
                     word.setNumberAnswers(0);
                     word.setCorrectAnswers(0);
 
-                    List<RussianWord> russianWords = new ArrayList<>();
-                    for(int i = 0; i < russian.length; i++){
-                        RussianWord russianWord = new RussianWord();
-                        russianWord.setRussianWord(russian[i]);
-                        int russianId = russianDAO.addRussianWord(russianWord);
-                        russianWord.setRussianId(russianId);
-                        russianWords.add(russianWord);
-                    }
-                    word.setRussian(russianWords);
                     if(wordDAO.isAddWords(word)) {
                         message = "Word added!";
                     }
