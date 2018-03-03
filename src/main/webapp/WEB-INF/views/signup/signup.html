@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="templates/layout :: head(~{this :: title},_,_)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Sign up</title>
+</head>
+<body>
+<div th:replace="templates/layout :: header(_,_)">Header</div>
+<div th:replace="templates/layout :: general(_,~{this :: #content},_)">
+    <div class="container" id="content">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-7">
+                <div th:class="${(messageError == null) ? 'alert alert-success' : 'alert alert-danger'}" id="message">
+                    <p th:text="${(message != null) ? message : 'Enter the data.'}">Message</p>
+                    <p th:text="${(messageError != null) ? messageError : _}"></p>
+                </div>
+                <form method="post" action="/signup">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="login">Login</label>
+                        <input type="text" class="form-control" id="login" name="login" placeholder="Login">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="repassword">Retry password</label>
+                        <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Retry password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+<footer th:replace="templates/layout :: footer">Footer</footer>
+</body>
+</html>

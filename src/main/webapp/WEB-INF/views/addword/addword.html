@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="templates/layout :: head(~{this :: title},_,_)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Home page</title>
+</head>
+<body>
+<div th:replace="templates/layout :: header(_,_)">Header</div>
+
+<div th:replace="templates/layout :: general(_,~{this :: #content},_)">
+    <div class="container" id="content">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-7">
+                <div th:class="${(messageError == null) ? 'alert alert-success' : 'alert alert-danger'}" id="message">
+                    <p th:text="${(message != null) ? message : 'Enter the data.'}">Message</p>
+                    <p th:text="${(messageError != null) ? messageError : _}"></p>
+                </div>
+                <form method="post" action="/addword">
+                    <div class="form-group">
+                        <label for="english">English word</label>
+                        <input type="text" class="form-control" id="english" name="english" placeholder="English">
+                    </div>
+                    <div class="form-group">
+                        <label for="russian1">Russian word</label>
+                        <input type="text" class="form-control" id="russian1" name="russian" placeholder="Russian">
+                    </div>
+                    <div class="form-group">
+                        <label for="russian2">Russian word</label>
+                        <input type="text" class="form-control" id="russian2" name="russian" placeholder="Russian">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="templates/layout :: footer">Footer</footer>
+
+</body>
+</html>

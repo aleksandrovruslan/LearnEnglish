@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, links, scripts)">
+
+    <title th:replace="${title}" th:text="#{layout.title}">Learn English</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/resources/css/common.css" th:src="@{/resources/css/common.css}">
+
+    <script type="text/javascript" src="/resources/js/common.js" th:src="@{/resources/js/common.js}"></script>
+
+    <th:block th:replace="${links}"/>
+
+    <th:block th:replace="${scripts}"/>
+</head>
+<body>
+
+    <!--Header-->
+    <div th:fragment="header(links, profile)" class="container" id="topic">
+        <div class="row">
+            <div class="col-3" id="brand">
+                <div class="nav navbar-light" id="pic">
+                    <a class="navbar-brand" href="/home">
+                        <img src="/resources/images/books.jpg" th:src="@{/resources/images/books.jpg}" width="30" height="30" class="d-inline-block align-top" alt="">
+                        Learn English
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 text-center" id="headermenu">
+                <div th:replace="${links}">header menu</div>
+            </div>
+            <div class="col-3 text-right" id="profile">
+                <th:block  th:replace="${profile}">
+                    <div th:switch="${#ctx.session.user}">
+                        <p th:case="null">
+                            <a th:href="@{/signin}">sign in </a>OR<a th:href="@{/signup}"> sign up</a>
+                        </p>
+                        <p th:case="*">
+                            <a th:href="@{/profile}" th:text="${#ctx.session.user.getName()}">profile</a>
+                        </p>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="general(left, content, right)" class="container">
+        <div class="row">
+
+            <!--Left menu-->
+            <div class="col-3" id="menu-l">
+                <div th:replace="${left}">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/home}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/addword}">Add word</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/collections}">My collections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/addcollection}">Add collection</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--//TODO to make one condition, checking an empty session produces an error-->
+                <th:block th:if="${#ctx.session.user != null && #ctx.session.user.getRole().getName() == 'Administrator'}">
+                    <div th:replace="fragments/menu :: adminpanel">
+                        Admin panel
+                    </div>
+                </th:block>
+            </div>
+
+            <!--Content-->
+            <div class="col-6" id="text">
+                <div th:replace="${content}">
+                    <h5 class="text-center" th:text="#{layout.caption}">This site for learn English words</h5>
+                    <p th:text="#{layout.content}">
+                        With it you can learn a lot of new words.
+                        You will be able to create your word collections for study and share them by other users and friends.
+                    </p>
+                </div>
+            </div>
+
+            <!--Right menu-->
+            <div class="col-3" id="menu-r">
+                <div th:replace="${right}">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Friends list</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">News</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Reclama</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:fragment="footer">
+        <div class="container">
+            <h3>My footer</h3>
+            <p>©All rights reserved</p>
+        </div>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title th:text="${title}">Learn English</title>
+</head>
+<body>
+    <div th:fragment="topic" class="container" id="topic">
+        <div class="row">
+            <div class="col-3" id="brand">
+                <div class="navbar navbar-light bg-light" id="pic">
+                    <a class="navbar-brand" href="/home">
+                        Learn English
+                    </a>
+                </div>
+            </div>
+            <div class="col-6 text-center" id="head">
+                head
+            </div>
+            <div class="col-3 text-right" id="profile">
+                you profile
+            </div>
+        </div>
+    </div>
+</body>
+</html>

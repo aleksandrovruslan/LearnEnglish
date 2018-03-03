@@ -82,12 +82,12 @@ create table IF NOT EXISTS words
 )
 ;
 
--- INSERT INTO role (name) VALUES ('Administrator');
--- INSERT INTO role (name) VALUES ('Moderator');
--- INSERT INTO role (name) VALUES ('User');
---
--- INSERT INTO words_collections (name) VALUES ('public');
--- INSERT INTO words_collections (name) VALUES ('friendly');
--- INSERT INTO words_collections (name) VALUES ('private');
---
--- INSERT INTO users(name, login, password, email, role_id) VALUES ('admin', 'admin', 'admin', 'admin@adminmail.ru', 1);
+INSERT INTO role (name) VALUES ('Administrator') ON CONFLICT DO NOTHING;
+INSERT INTO role (name) VALUES ('Moderator') ON CONFLICT DO NOTHING;
+INSERT INTO role (name) VALUES ('User') ON CONFLICT DO NOTHING;
+
+INSERT INTO words_collections (name) VALUES ('public') ON CONFLICT DO NOTHING;
+INSERT INTO words_collections (name) VALUES ('friendly') ON CONFLICT DO NOTHING;
+INSERT INTO words_collections (name) VALUES ('private') ON CONFLICT DO NOTHING;
+
+INSERT INTO users(name, login, password, email, role_id) VALUES ('admin', 'admin', 'admin', 'admin@adminmail.ru', 1) ON CONFLICT DO NOTHING;

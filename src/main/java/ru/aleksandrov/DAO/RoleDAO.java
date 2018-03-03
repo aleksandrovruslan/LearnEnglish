@@ -1,140 +1,87 @@
 package ru.aleksandrov.DAO;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import ru.aleksandrov.Models.Role;
-import ru.aleksandrov.Util.DBConnection;
+import ru.aleksandrov.models.Role;
+import ru.aleksandrov.util.JPAUtil;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
 import java.util.List;
 
 public class RoleDAO {
-    private static Logger log = LogManager.getLogger(RoleDAO.class);
-    private Connection con = null;
+    private static String administrator = "Administrator";
+    private static String moderator = "Moderator";
+    private static String user = "User";
+    private static Role adminRole = null;
+    private static Role moderatorRole = null;
+    private static Role userRole = null;
 
-    public RoleDAO() throws PropertyVetoException, IOException, SQLException {
-        DBConnection dbc = DBConnection.getInstance();
-        con = dbc.getConnection();
+    static {
+        Role adminR = new Role();
+        adminR.setName(administrator);
+        Role moderR = new Role();
+        moderR.setName(moderator);
+        Role userR = new Role();
+        userR.setName(user);
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory()
+                .createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(adminR);
+        entityManager.merge(moderR);
+        entityManager.merge(userR);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
-    public int isAddRole(Role role) throws SQLException {
-        int id = 0;
-        String SQL = "INSERT INTO role (name) VALUES (?)";
-        try (PreparedStatement pstatement = con.prepareStatement((SQL)
-                , Statement.RETURN_GENERATED_KEYS)) {
-            con.setAutoCommit(false);
-            pstatement.setString(1, role.getName());
-            pstatement.executeUpdate();
-            ResultSet generatedKeys = pstatement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                id = generatedKeys.getInt("role_id");
-            }
-            con.commit();
-            con.setAutoCommit(true);
-            return id;
-        } catch (SQLException e) {
-            log.error("isAddRole(): ", e);
-            if (con != null) {
-                try {
-                    con.rollback();
-                } catch (SQLException e1) {
-                    log.error("isAddRole(): con.rollback(): ", e1);
-                }
-            }
-        } finally {
-            if (con != null) {
-                con.close();
-            }
+    public static Role getAdminRole() {
+        if (adminRole == null) {
+            adminRole = getRole(administrator);
         }
-        return id;
+        return adminRole;
     }
 
-    public Role getRole(int id) {
-        Role role = null;
-        String SQL = "SELECT * FROM role WHERE role_id = (?)";
-        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
-            pstatement.setInt(1, id);
-            ResultSet resultSet = pstatement.executeQuery();
-            if (resultSet.next()) {
-                role = new Role(resultSet.getInt("role_id")
-                        , resultSet.getString("name"));
-                return role;
-            }
-        } catch (SQLException e) {
-            log.error("getRole(): ", e);
+    public static Role getModeratorRole() {
+        if (moderatorRole == null) {
+            moderatorRole = getRole(moderator);
         }
-        return role;
+        return moderatorRole;
     }
 
-    public boolean isUpdateRole(Role role) throws SQLException {
-        String SQL = "UPDATE role SET name = (?) WHERE role_id = (?)";
-        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
-            con.setAutoCommit(false);
-            pstatement.setString(1, role.getName());
-            pstatement.setInt(2, role.getRoleId());
-            pstatement.executeUpdate();
-            con.commit();
-            con.setAutoCommit(true);
-            return true;
-        } catch (SQLException e) {
-            log.error("isUpdateRole(): ", e);
-            if (con != null) {
-                try {
-                    con.rollback();
-                } catch (SQLException e1) {
-                    log.error("isUpdateRole(): con.rollback(): ", e1);
-                }
-            }
-        } finally {
-            if (con != null) {
-                con.close();
-            }
+    public static Role getUserRole() {
+        if (userRole == null) {
+            userRole = getRole(user);
         }
-        return false;
+        return userRole;
     }
 
-    public boolean isDeleteRole(int id) throws SQLException {
-        String SQL = "DELETE FROM role WHERE role_id = (?)";
-        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
-            con.setAutoCommit(false);
-            pstatement.setInt(1, id);
-            pstatement.executeUpdate();
-            con.commit();
-            con.setAutoCommit(true);
-            return true;
-        } catch (SQLException e) {
-            log.error("isDeleteRole(): ", e);
-            if (con != null) {
-                try {
-                    con.rollback();
-                } catch (SQLException e1) {
-                    log.error("isDeleteRole(): con.rollback(): ", e1);
-                }
-            }
-        } finally {
-            if (con != null) {
-                con.close();
-            }
-        }
-        return false;
+    public void addRole(Role role) {
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory()
+                .createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(role);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
-    public List<Role> getRoles() {
-        List<Role> roles = new ArrayList<>(0);
-        String SQL = "SELECT * FROM role";
-        try (PreparedStatement pstatement = con.prepareStatement(SQL)) {
-            ResultSet result = pstatement.executeQuery();
-            while (result.next()) {
-                roles.add(new Role(result.getInt("role_id")
-                        , result.getString("name")));
-            }
-            return roles;
-        } catch (SQLException e) {
-            log.error("getRoles(): ", e);
-        }
-        return roles;
+    public void addRole(String role) {
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory()
+                .createEntityManager();
+        entityManager.getTransaction().begin();
+        Role tempRole = new Role();
+        tempRole.setName(role);
+        entityManager.merge(tempRole);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
+    private static Role getRole(String role) {
+        //TODO if there is no role then create
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory()
+                .createEntityManager();
+        entityManager.getTransaction().begin();
+        Role roleQuery = entityManager
+                .createQuery("from Role r where r.name like :roleName"
+                        , Role.class).setParameter("roleName", role).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return roleQuery;
     }
 }

@@ -1,0 +1,33 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="ru.aleksandrov.models" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <!--H2 properties-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
+            <property name="javax.persistence.jdbc.url"    value="jdbc:h2:mem:test"/>
+            <property name="javax.persistence.jdbc.user" value="sa"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
+
+            <!--PostgreSQL properties-->
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL95Dialect"/>-->
+            <!--<property name="hibernate.connection.connection.driver_class" value="org.postgresql.Driver"/>-->
+            <!--<property name="hibernate.connection.url" value="jdbc:postgresql://127.0.0.1:5432/testbase"/>-->
+            <!--<property name="hibernate.connection.username" value="adminwt"/>-->
+            <!--<property name="hibernate.connection.password" value="adminWTPassword"/>-->
+            <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
+
+            <!--Connection pool properties-->
+            <property name="hibernate.c3p0.min_size" value="20"/>
+            <property name="hibernate.c3p0.max_size" value="200"/>
+            <property name="hibernate.c3p0.timeout" value="300"/>
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+            <property name="hibernate.c3p0.idle_test_period" value="3000"/>
+        </properties>
+    </persistence-unit>
+</persistence>
