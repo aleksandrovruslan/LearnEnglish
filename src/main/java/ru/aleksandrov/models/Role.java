@@ -1,19 +1,30 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@org.hibernate.annotations.Immutable
 public class Role implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "Name no specified.")
+    @Size(
+            min = 1,
+            max = 255,
+            message = "Incorrect size name!"
+    )
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }

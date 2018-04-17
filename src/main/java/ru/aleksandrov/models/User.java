@@ -1,35 +1,62 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "USERS")
 public class User implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(
+            min = 1,
+            max = 255,
+            message = "Incorrect size name user. Min 1, max 255."
+    )
+    @Column(nullable = false)
     private String name;
 
+    @NotNull
+    @Email
+    @Column(nullable = false)
     private String email;
 
+    @NotNull
+    @Size(
+            min = 4,
+            max = 20,
+            message = "Incorrect size login. Min 4, max 20."
+    )
+    @Column(nullable = false)
     private String login;
 
+    @NotNull
+    @Size(
+            min = 6,
+            max = 20,
+            message = "Incorrect size password. Min 6, max 20."
+    )
     private String password;
 
     @ManyToOne(optional = false
-            , cascade = {CascadeType.MERGE}
-            , fetch = FetchType.LAZY)
+            , cascade = {CascadeType.MERGE})
     @JoinColumn(name = "role_id")
     private Role role;
 
-    @ManyToMany(fetch = FetchType.LAZY
-            , cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER
+            , cascade = CascadeType.ALL)
     @JoinTable(name = "collection_user",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "collection_id"))
-    private Set<Collection> collections;
+    private Set<Collection> collections = new HashSet<>();
 
     public User() {
     }

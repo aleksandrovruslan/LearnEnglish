@@ -1,7 +1,10 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,23 +13,29 @@ public class Collection implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(
+            min = 1,
+            max = 255,
+            message = "Incorrect size name collection. Min 1, max 255."
+    )
+    @Column(nullable = false)
     private String name;
 
-    @ManyToOne(optional = false
-            , cascade = {CascadeType.PERSIST, CascadeType.MERGE}
-            , fetch = FetchType.LAZY)
+    @NotNull(message = "Collection type not specified.")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false
+            , cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id")
     private CollectionType type;
 
     @ManyToMany(mappedBy = "collections", fetch = FetchType.LAZY)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY
-            , cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "collection_quiz"
             , joinColumns = @JoinColumn(name = "collection_id")
             , inverseJoinColumns = @JoinColumn(name = "quiz_id"))
-    private Set<Quiz> quizzes;
+    private Set<Quiz> quizzes = new HashSet<>();
 
     public Collection() {
     }
@@ -80,7 +89,7 @@ public class Collection implements Serializable {
 
     @Override
     public String toString() {
-        return "Collection{" +
+        return "CollectionService{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", type=" + type +

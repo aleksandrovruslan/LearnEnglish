@@ -40,6 +40,7 @@
                         </p>
                         <p th:case="*">
                             <a th:href="@{/profile}" th:text="${#ctx.session.user.getName()}">profile</a>
+                            <a th:href="@{/logout}" th:text="Logout">Logout</a>
                         </p>
                     </div>
                 </th:block>
@@ -69,7 +70,7 @@
                     </ul>
                 </div>
                 <!--//TODO to make one condition, checking an empty session produces an error-->
-                <th:block th:if="${#ctx.session.user != null && #ctx.session.user.getRole().getName() == 'Administrator'}">
+                <th:block th:if="${#ctx.session.user != null && 'Administrator' == #ctx.session.user.getRole().getName()}">
                     <div th:replace="fragments/menu :: adminpanel">
                         Admin panel
                     </div>
@@ -78,11 +79,33 @@
 
             <!--Content-->
             <div class="col-6" id="text">
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="col-7">
+                        <div>
+                            <th:block th:if="${not #lists.isEmpty(errors)}">
+                                <div class="alert alert-danger" id="errors">
+                                    <th:block th:each="error : ${errors}">
+                                        <p th:text="${error}">Error</p>
+                                    </th:block>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${not #lists.isEmpty(messages)}">
+                                <div class="alert alert-success" id="messages">
+                                    <th:block th:each="message : ${messages}">
+                                        <p th:text="${message}">Message</p>
+                                    </th:block>
+                                </div>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+                </div>
                 <div th:replace="${content}">
                     <h5 class="text-center" th:text="#{layout.caption}">This site for learn English words</h5>
                     <p th:text="#{layout.content}">
                         With it you can learn a lot of new words.
-                        You will be able to create your word collections for study and share them by other users and friends.
+                        You will be able to create your word collectionsService for study and share them by other users and friends.
                     </p>
                 </div>
             </div>

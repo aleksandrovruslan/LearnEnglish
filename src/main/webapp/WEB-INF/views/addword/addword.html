@@ -12,10 +12,6 @@
         <div class="row">
             <div class="col-2"></div>
             <div class="col-7">
-                <div th:class="${(messageError == null) ? 'alert alert-success' : 'alert alert-danger'}" id="message">
-                    <p th:text="${(message != null) ? message : 'Enter the data.'}">Message</p>
-                    <p th:text="${(messageError != null) ? messageError : _}"></p>
-                </div>
                 <form method="post" action="/addword">
                     <div class="form-group">
                         <label for="english">English word</label>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="templates/layout :: head(~{this :: title},_,_)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Home page</title>
+</head>
+<body>
+<div th:replace="templates/layout :: header(_,_)">Header</div>
+<div th:replace="templates/layout :: general(_,~{this :: #content},_)">
+    <div class="container" id="content">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-7">
+                <form action="/addcollection" method="post">
+                    <div class="form-group">
+                        <label for="name">Collection name.</label>
+                        <input type="text" class="form-control" id="name" name="collectionName" placeholder="name">
+                    </div>
+                    <div class="input-group mb-4">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-outline-secondary" type="button">Collection type</button>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect" name="collectionTypeId">
+                            <option selected>Choose...</option>
+                            <th:block th:each="type : ${types}">
+                                <option th:value="${type.id}" th:text="${type.name}">Type</option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add collection</button>
+                </form>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+<footer th:replace="templates/layout :: footer">Footer</footer>
+</body>
+</html>

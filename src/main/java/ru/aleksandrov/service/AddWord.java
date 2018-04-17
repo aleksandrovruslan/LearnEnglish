@@ -1,6 +1,6 @@
 package ru.aleksandrov.service;
 
-import ru.aleksandrov.DAO.WordDAO;
+import ru.aleksandrov.DAO.QuizDAO;
 import ru.aleksandrov.models.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,8 @@ public class AddWord {
 
     public String runner() throws UnsupportedEncodingException {
         extractDataSession();
-        return new WordDAO().addWord(word);
+//        return new QuizDAO().addQuiz(word);
+        return "Plugging AddWord.runner()";
     }
 
     private void extractDataSession() {

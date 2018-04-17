@@ -1,4 +1,4 @@
-package ru.aleksandrov.service;
+package ru.aleksandrov.util;
 
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;

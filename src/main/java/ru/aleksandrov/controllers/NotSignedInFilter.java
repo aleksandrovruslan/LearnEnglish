@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter (filterName = "LoginFilter", urlPatterns = {"/addword", "/collections", "/addcollection"})
+@WebFilter (filterName = "LoginFilter", urlPatterns = {"/addword", "/collections", "/addcollection", "/collection"})
 public class NotSignedInFilter implements Filter {
     private FilterConfig config;
     public void destroy() {
@@ -22,7 +22,7 @@ public class NotSignedInFilter implements Filter {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            response.sendRedirect("/home");
+            req.getRequestDispatcher("/home").forward(req, resp);
         }
         chain.doFilter(req, resp);
     }

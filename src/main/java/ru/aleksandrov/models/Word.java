@@ -1,7 +1,10 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,13 +13,20 @@ public class Word implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(
+            min = 1,
+            max = 255,
+            message = "Incorrect size word collection. Min 1, max 255."
+    )
+    @Column(nullable = false)
+    private String name;
+
     @OneToMany(mappedBy = "word")
-    private Set<Quiz> quizzes;
+    private Set<Quiz> quizzes = new HashSet<>();
 
     @ManyToMany(mappedBy = "translation")
-    private Set<Quiz> quizTranslations;
-
-    private String name;
+    private Set<Quiz> quizTranslations = new HashSet<>();
 
     public Word() {
     }

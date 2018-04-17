@@ -1,7 +1,10 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,10 +13,17 @@ public class CollectionType implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
+    @Size(
+            min = 1,
+            max = 255,
+            message = "Incorrect size name collection type. Min 1, max 255."
+    )
+    @Column(nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "type", fetch = FetchType.LAZY)
-    private Set<Collection> collections;
+    private Set<Collection> collections = new HashSet<>();
 
     public CollectionType() {
     }

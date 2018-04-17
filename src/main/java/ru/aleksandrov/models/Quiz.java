@@ -1,7 +1,10 @@
 package ru.aleksandrov.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,6 +13,7 @@ public class Quiz implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(optional = false
             , cascade = {CascadeType.PERSIST, CascadeType.MERGE}
             , fetch = FetchType.LAZY)
@@ -21,10 +25,10 @@ public class Quiz implements Serializable{
     @JoinTable(name = "word_quiz",
             joinColumns = @JoinColumn(name = "quiz_id"),
             inverseJoinColumns = @JoinColumn(name = "translation_word_id"))
-    private Set<Word> translation;
+    private Set<Word> translation = new HashSet<>();
 
     @ManyToMany(mappedBy = "quizzes", fetch = FetchType.LAZY)
-    private Set<Collection> collections;
+    private Set<Collection> collections = new HashSet<>();
 
     public Quiz() {
     }

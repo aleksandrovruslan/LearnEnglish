@@ -8,9 +8,15 @@
 <div th:replace="templates/layout :: header(_,_)">Header</div>
 <div th:replace="templates/layout :: general(_,~{this :: #content},_)">
     <div class="container" id="content">
-        <div th:each="collection : ${collections}">
-            <a href="#"><p th:text="${collection}"/></a>
+        <div class="col-2"></div>
+        <div class="col-7">
+            <div class="container">
+                <div th:each="collection : ${collections}">
+                    <a th:href="@{/collection(id=${collection.id}, action='show')}"><p th:text="${collection.name}"/></a>
+                </div>
+            </div>
         </div>
+        <div class="col-3"></div>
     </div>
 </div>
 <footer th:replace="templates/layout :: footer">Footer</footer>

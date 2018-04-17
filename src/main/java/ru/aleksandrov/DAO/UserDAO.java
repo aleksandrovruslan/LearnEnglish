@@ -35,4 +35,19 @@ public class UserDAO {
             entityManager.close();
         }
     }
+
+    public User checkUser(User user) {
+        EntityManager entityManager = JPAUtil.getEntityManagerFactory()
+                .createEntityManager();
+        entityManager.getTransaction().begin();
+        User userData = entityManager.createQuery
+                ("from User u where u.login like :uLogin", User.class)
+                .setParameter("uLogin", user.getLogin()).getSingleResult();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        if (userData == null || !userData.getPassword().equals(user.getPassword())) {
+            throw new IllegalStateException("Login or password are incorrect!");
+        }
+        return userData;
+    }
 }

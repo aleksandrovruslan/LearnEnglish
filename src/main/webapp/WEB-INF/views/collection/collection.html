@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="templates/layout :: head(~{this :: title},_,_)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Home page</title>
+</head>
+<body>
+<div th:replace="templates/layout :: header(_,_)">Header</div>
+<div th:replace="templates/layout :: general(_,~{this :: #content},_)">
+    <div class="container" id="content">
+        <div th:if="${collection != null}">
+            <div th:each="quiz : ${collection.quizzes}">
+                <a th:href="@{/collection(id=${quiz.id}, action='show')}"><p th:text="${quiz.word.name}"/></a>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="templates/layout :: footer">Footer</footer>
+</body>
+</html>
